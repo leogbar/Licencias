@@ -174,9 +174,6 @@ else:
             licencia.write(outFile)
         print("Proceso Terminado..."+"\n")
         exit()
-            else:
-                print("No ingresó la cantidad de hojas...")
-                exit()
     else:
         print("No ingresó la cantidad de hojas...")
         exit()
