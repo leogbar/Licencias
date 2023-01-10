@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Name:        Licencias v3
+# Name:        Licencias v4
 # Purpose: Emisión de PDF con Licencias en funcion de un PDF mayor
 # con ciertas caracteristicas, al cual, hay que borrarle y agregarle cosas en una
 # pagina y agregarle paginas modelo.
@@ -7,7 +7,8 @@
 # Author:      Ing. Esp. Leonardo Barenghi
 #
 # Created:     14/09/2021
-# Copyright:   (c) lbarenghi 2021 https://github.com/leogbar/Licencias
+# Modificated:     10/01/2023
+# Copyright:   (c) lbarenghi 2021-2023 https://github.com/leogbar/Licencias
 # Licence:     BSD 3
 #-------------------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ pdfmetrics.registerFont(TTFont('Arial', 'Arial.ttf'))
 pdfmetrics.registerFont(TTFont('Arial-Bold', 'Arial.ttf'))
 
 def current_date_format(date):
-    months = ("Enero", "Febrero", "Marzo", "Abri", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+    months = ("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
     day = date.day
     month = months[date.month - 1]
     year = date.year
@@ -44,7 +45,7 @@ def current_date_format(date):
 now = datetime.datetime.now()
 
 
-event, values = sg.Window('Generacion de Licencias v1', [[sg.Text('(c) Ing. Esp. Leonardo Barenghi - 2021 - Licencia bajo BSD 3')],[sg.Text(' ')],[sg.Text('Ingrese cantidad de dias a partir de hoy para la emisión:')],[sg.InputText()],
+event, values = sg.Window('Generacion de Licencias v3', [[sg.Text('(c) Ing. Esp. Leonardo Barenghi - 2021 - Licencia bajo BSD 3')],[sg.Text(' ')],[sg.Text('Ingrese cantidad de dias a partir de hoy para la emisión:')],[sg.InputText()],
 [sg.Radio('Autorización de Operación Provisoria', "RADIO1", default=False, key="Licencia0")],
 [sg.Radio('Licencia de Operación', "RADIO1", default=False, key="Licencia1")],
 [sg.Radio('Registro', "RADIO1", default=False, key="Licencia2")],
@@ -193,16 +194,15 @@ else:
                 licencia1.mergePage(encabezadoPdf)
                 licencia1.mergePage(lineaPdf)
                 licencia1.mergePage(firmaPdf)
-                licencia.addPage(licencia1)
-                licencia.addPage(adjuntoPdf)
                 x=x+1
             else:
                 licencia1 = pypdf.PdfFileWriter()
                 licencia1=original.getPage(i)
                 licencia1.mergePage(anexoBorrarPdf)
                 licencia1.mergePage(anexoPdf)
-                licencia.addPage(licencia1)
                 x=x+1
+            licencia.addPage(licencia1)
+        licencia.addPage(adjuntoPdf)
         salida=carpeta+separador+archivo+".pdf"
         print("Generando "+salida+ "..."+"\n")
 
@@ -213,3 +213,4 @@ else:
     else:
         print("No ingresó la cantidad de hojas...")
         #exit()
+
